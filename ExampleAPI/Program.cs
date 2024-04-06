@@ -17,16 +17,22 @@ namespace ExampleAPI
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            //if (app.Environment.IsDevelopment())
+            //{
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            //}
 
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
+            // When opening up the API, automatically reroute to the swagger page.
+            app.MapGet("/", context =>
+            {
+                context.Response.Redirect("/swagger");
+                return Task.CompletedTask;
+            });
 
             app.MapControllers();
 
